@@ -35,7 +35,6 @@ void PointCloud::transform(const float &x, const float &y, const float &theta)
   transform(1,2) = y;
 
   points_ = transform * points_.colwise().homogeneous();
-  std::cout << points_ << std::endl ;
 }
 
 const PContainer &PointCloud::getPoints()

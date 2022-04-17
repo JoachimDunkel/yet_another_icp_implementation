@@ -18,3 +18,7 @@ target_link_libraries(${PROJECT_NAME}_core Eigen3::Eigen)
 target_link_libraries(${PROJECT_NAME}
     ${PROJECT_NAME}_core
 )
+
+target_link_libraries(test
+    ${PROJECT_NAME}_core
+)
