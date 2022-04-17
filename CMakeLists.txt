@@ -1,10 +1,20 @@
 cmake_minimum_required(VERSION 3.21)
-project(test_cpp)
+project(fast_icp)
 
 set(CMAKE_CXX_STANDARD 14)
 
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 
-add_executable(test_cpp main.cpp PointCloud.cpp PointCloud.hpp)
+add_library(${PROJECT_NAME}_core
+    PointCloud.cpp
+    PointCloud.hpp
+)
+add_executable(${PROJECT_NAME} main.cpp )
 
-target_link_libraries(test_cpp Eigen3::Eigen)
+add_executable(test test.cpp)
+
+target_link_libraries(${PROJECT_NAME}_core Eigen3::Eigen)
+
+target_link_libraries(${PROJECT_NAME}
+    ${PROJECT_NAME}_core
+)

@@ -1,3 +1,8 @@
-//
-// Created by jd on 17.04.22.
-//
+
+#include <iostream>
+
+int main()
+{
+  std::cout << "hello " << std::endl;
+  return 0;
+}
