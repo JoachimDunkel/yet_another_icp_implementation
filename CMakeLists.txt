@@ -31,7 +31,7 @@ target_link_libraries(${PROJECT_NAME}
     ${PROJECT_NAME}_core
 )
 
-add_executable(test test.cpp)
-target_link_libraries(test
-    ${PROJECT_NAME}_core
-)
+#add_executable(test test.cpp)
+#target_link_libraries(test
+#    ${PROJECT_NAME}_core
+#)
