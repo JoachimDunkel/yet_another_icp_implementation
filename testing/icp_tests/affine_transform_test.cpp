@@ -1,5 +1,17 @@
 #include "gtest/gtest.h"
+#include <pcl/point_cloud.h>
+#include <iostream>
 
-TEST(basic_check, test_eq){
-  EXPECT_EQ(1,0);
+class AffineTransformTests : public ::testing::Test
+{
+protected:
+    virtual void SetUp(){
+    }
+    virtual void TearDown(){
+    }
+};
+
+TEST_F(AffineTransformTests, setupWorks)
+{
+  EXPECT_EQ(0,0);
 }

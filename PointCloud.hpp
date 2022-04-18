@@ -5,18 +5,22 @@ typedef Eigen::Vector2f Point;
 
 typedef Eigen::Matrix<float, 2, Eigen::Dynamic , Eigen::RowMajor> PContainer;
 
-class PointCloud
+namespace fast_icp
 {
-public:
-    explicit PointCloud();
+    class PointCloud
+    {
+    public:
+        explicit PointCloud();
 
-    void add(const Point & point);
+        void add(const Point & point);
 
-    PointCloud copy();
+        PointCloud copy();
 
-    void transform(const float &x, const float &y, const float &theta);
+        void transform(const float &x, const float &y, const float &theta);
 
-    const PContainer & getPoints();
-private:
-    PContainer points_;
-};
+        const PContainer & getPoints();
+    private:
+        PContainer points_;
+    };
+}
+

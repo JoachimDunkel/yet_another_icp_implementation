@@ -6,6 +6,9 @@
 
 const size_t num_points = 5;
 
+using namespace fast_icp;
+using namespace Eigen;
+
 void createPoints(PointCloud & source_cloud){
 
   double x = 0.0;
@@ -19,8 +22,6 @@ void createPoints(PointCloud & source_cloud){
     y += step;
   }
 }
-
-using namespace Eigen;
 
 int main(){
 
