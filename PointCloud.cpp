@@ -39,8 +39,7 @@ namespace fast_icp
       points_ = transform * points_.colwise().homogeneous();
     }
 
-    const PContainer &PointCloud::getPoints()
-    {
+    const PContainer & PointCloud::getPoints() const {
       return points_;
     }
 

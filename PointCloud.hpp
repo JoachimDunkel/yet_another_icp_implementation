@@ -18,7 +18,7 @@ namespace fast_icp
 
         void transform(const float &x, const float &y, const float &theta);
 
-        const PContainer & getPoints();
+        const PContainer & getPoints() const;
     private:
         PContainer points_;
     };
