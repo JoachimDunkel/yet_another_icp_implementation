@@ -1,9 +1,6 @@
 #pragma once
-#include <Eigen/Dense>
 #include <vector>
-typedef Eigen::Vector2f Point;
-typedef Eigen::Matrix<float, 2, Eigen::Dynamic , Eigen::RowMajor> PContainer;
-typedef Eigen::Transform<float, 2, Eigen::Affine> Transform2D;
+#include "resources.h"
 
 namespace fast_icp
 {
@@ -17,6 +14,7 @@ namespace fast_icp
         PointCloud copy() const;
 
         void transform(const float &x, const float &y, const float &theta);
+        void transform(const Transform2D & transformation);
 
         const PContainer & getPoints() const;
     private:

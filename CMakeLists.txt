@@ -11,9 +11,14 @@ find_package(PCL 1.9 REQUIRED)
 #include_directories(${PCL_INCLUDE_DIRS})
 
 add_library(${PROJECT_NAME}_core
-    PointCloud.cpp
-    PointCloud.hpp
-        Icp.cpp Icp.hpp)
+        Icp.cpp
+        Icp.hpp
+        util.cpp
+        util.h
+        resources.h
+        PointCloud.cpp
+        PointCloud.hpp
+)
 
 #link_directories(${PCL_LIBRARY_DIRS})
 #add_definitions(${PCL_DEFINITIONS})

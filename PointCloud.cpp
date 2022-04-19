@@ -24,21 +24,27 @@ namespace fast_icp {
         return copy;
     }
 
-    void PointCloud::transform(const float &x, const float &y, const float &theta) {
-        Transform2D transform = Transform2D::Identity();
+    void PointCloud::transform(const float &x, const float &y, const float &theta)
+    {
+        Transform2D trans = Transform2D::Identity();
 
-        transform(0, 0) = std::cos(theta);
-        transform(1, 0) = std::sin(theta);
-        transform(0, 1) = -transform(1, 0);
-        transform(1, 1) = transform(0, 0);
-        transform(0, 2) = x;
-        transform(1, 2) = y;
+        trans(0, 0) = std::cos(theta);
+        trans(1, 0) = std::sin(theta);
+        trans(0, 1) = -trans(1, 0);
+        trans(1, 1) = trans(0, 0);
+        trans(0, 2) = x;
+        trans(1, 2) = y;
 
-        points_ = transform * points_.colwise().homogeneous();
+        transform(trans);
     }
 
     const PContainer &PointCloud::getPoints() const {
         return points_;
+    }
+
+    void PointCloud::transform(const Transform2D &transformation)
+    {
+        points_ = transformation * points_.colwise().homogeneous();
     }
 
 }

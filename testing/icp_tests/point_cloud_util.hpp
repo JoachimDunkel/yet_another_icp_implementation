@@ -4,13 +4,14 @@
 #include "pcl/point_cloud.h"
 #include "pcl/PointIndices.h"
 #include "pcl/point_types_conversion.h"
-#include "../../PointCloud.hpp"
 
 #include <algorithm>
-#include <math.h>
+#include <cmath>
 
 typedef pcl::PointXYZ PCLPoint;
 typedef pcl::PointCloud<PCLPoint> PCLCloud;
+
+using namespace fast_icp;
 
 namespace point_cloud_util {
 
