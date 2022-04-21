@@ -37,6 +37,7 @@ namespace fast_icp
                 converged_ = false;
                 break;
             }
+
             if(curr_error < converged_threshold_)
             {
                 converged_ = true;
