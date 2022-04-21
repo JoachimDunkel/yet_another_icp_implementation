@@ -69,3 +69,25 @@ TEST_F(ICPIntegrationTests, RectangleWorksIfCorrespondencesCanBeFound)
     EXPECT_TRUE(icp.neededIterations() == 1);
     EXPECT_TRUE(icp.isConverged());
 }
+
+//TODO find out why this test never succeeds..
+//and does it succeed with pcl::icp?
+//make icp interactive with pcl visualizer.
+TEST_F(ICPIntegrationTests, EdgeWorks)
+{
+    LoadEdge();
+    expected_transform_ = util::transformationFrom(0.05, 0.0, DEG2RAD(0));
+
+    target_cloud_.transform(expected_transform_);
+
+    ICP icp(source_cloud_, target_cloud_);
+
+    PointCloud transformed_cloud;
+    auto found_transformation = icp.Align(transformed_cloud);
+
+    EXPECT_TRUE(source_cloud_ != target_cloud_);
+    EXPECT_TRUE(transformed_cloud == target_cloud_);
+    EXPECT_TRUE(expected_transform_.isApprox(found_transformation));
+    EXPECT_TRUE(icp.isConverged());
+    std::cout<< icp.neededIterations() << std::endl;
+}
