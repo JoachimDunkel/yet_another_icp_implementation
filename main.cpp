@@ -7,11 +7,11 @@
 #include "util.h"
 #include "Icp.hpp"
 
+//#include <pcl/visualization/cloud_viewer.h>
+
 int main()
 {
-
-
-
+//    "/home/jd/git/fast_icp/data/edge.pcd"
 
     std::string file_path = "/home/jd/git/fast_icp/data/rectangle.pcd";
     PCLCloud cloud_pcl;

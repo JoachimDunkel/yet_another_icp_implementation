@@ -6,11 +6,12 @@ namespace fast_icp
 
 
     ICP::ICP(const PointCloud &source_cloud, const PointCloud &target_cloud)
-            : converged_threshold_(1e-8),
-            max_iterations_(100),
-            source_cloud_(source_cloud),
-            target_cloud_(target_cloud),
-            converged_(false){}
+            :   converged_threshold_(1e-8),
+                max_iterations_(100),
+                needed_iterations_(max_iterations_),
+                source_cloud_(source_cloud),
+                target_cloud_(target_cloud),
+                converged_(false){}
 
     Transform2D ICP::Align(PointCloud &transformed_cloud)
     {
@@ -22,8 +23,11 @@ namespace fast_icp
         double curr_error = std::numeric_limits<double>::max();
         double last_error = curr_error;
 
+        needed_iterations_ = 0;
+
         for (size_t i = 0; i < max_iterations_; ++i)
         {
+            needed_iterations_ ++;
             DetermineCorrespondences();
             PointCloud corr_target_cloud = GetTargetCloudCorrespondences();
             Transform2D transformation = ComputeTransformationSVD(transformed_cloud, corr_target_cloud);
@@ -143,6 +147,11 @@ namespace fast_icp
             corresponding_target_cloud.add(target_point);
         }
         return corresponding_target_cloud;
+    }
+
+    size_t ICP::neededIterations() const
+    {
+        return needed_iterations_;
     }
 
 }

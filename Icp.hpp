@@ -18,6 +18,8 @@ public:
 
     bool isConverged() const;
 
+    size_t neededIterations() const;
+
 private:
 
     void DetermineCorrespondences();
@@ -25,6 +27,7 @@ private:
     double ComputeError(const PointCloud &transformed_cloud);
     PointCloud GetTargetCloudCorrespondences();
 
+    size_t needed_iterations_;
     const fast_icp::PointCloud & source_cloud_;
     const fast_icp::PointCloud & target_cloud_;
 

@@ -50,5 +50,17 @@ namespace fast_icp
         stream  << "(" << points_.rows() << ", " << points_.cols() << ")";
         return stream.str();
     }
+
+    bool PointCloud::operator==(const PointCloud &rhs) const
+    {
+        return getPoints().isApprox(rhs.getPoints());
+    }
+
+    bool PointCloud::operator!=(const PointCloud &rhs) const
+    {
+        return !(*this == rhs);
+    }
+
+
 }
 

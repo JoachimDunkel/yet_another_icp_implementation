@@ -19,6 +19,10 @@ namespace fast_icp
         const PContainer & getPoints() const;
 
         std::string getShape() const;
+
+        bool operator == (const PointCloud &rhs) const;
+        bool operator != (const PointCloud &rhs) const;
+
     private:
         PContainer points_;
 
