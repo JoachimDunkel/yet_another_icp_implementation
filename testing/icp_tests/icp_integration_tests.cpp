@@ -9,6 +9,8 @@
 #include "../../util.h"
 #include "../../Icp.hpp"
 
+using namespace fast_icp;
+
 class ICPIntegrationTests : public ::testing::Test {
 protected:
     virtual void SetUp()

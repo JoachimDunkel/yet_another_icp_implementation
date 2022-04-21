@@ -7,6 +7,8 @@
 
 #include "../../point_cloud_util.hpp"
 
+using namespace fast_icp;
+
 class AffineTransformTests : public ::testing::Test {
 protected:
     virtual void SetUp() {

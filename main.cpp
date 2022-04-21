@@ -7,6 +7,7 @@
 #include "util.h"
 #include "Icp.hpp"
 
+using namespace fast_icp;
 //#include <pcl/visualization/cloud_viewer.h>
 
 int main()
