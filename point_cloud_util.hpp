@@ -1,12 +1,13 @@
 #pragma once
 
-#include "../../PointCloud.hpp"
+#include "PointCloud.hpp"
 #include "pcl/point_cloud.h"
 #include "pcl/PointIndices.h"
 #include "pcl/point_types_conversion.h"
 
 #include <algorithm>
 #include <cmath>
+#include <pcl/io/pcd_io.h>
 
 typedef pcl::PointXYZ PCLPoint;
 typedef pcl::PointCloud<PCLPoint> PCLCloud;
@@ -40,6 +41,16 @@ namespace point_cloud_util {
             pcl_p.z = 0;
 
             pcl_cloud.push_back(pcl_p);
+        }
+    }
+
+    static void fromPCL(const PCLCloud & pcl_cloud, PointCloud & cloud_out)
+    {
+        for (auto pcl_point : pcl_cloud.points) {
+            Point point;
+            point.x() = pcl_point.x;
+            point.y() = pcl_point.y;
+            cloud_out.add(point);
         }
     }
 
@@ -114,6 +125,21 @@ namespace point_cloud_util {
         }
 
         return points_2d;
+    }
+
+    bool static readCloudFromFile(const std::string& file_path, PCLCloud& cloud)
+    {
+        if (pcl::io::loadPCDFile<PCLPoint> (file_path, cloud) == -1) //* load the file
+        {
+            std::cout << "Could not read point cloud from: " << file_path << std::endl;
+            return false;
+        }
+        return true;
+    }
+
+    void storeCloudToFile(const std::string& file_path, const PCLCloud& cloud)
+    {
+        pcl::io::savePCDFileASCII (file_path, cloud);
     }
 
 }

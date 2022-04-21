@@ -1,18 +1,22 @@
 #include <cmath>
 #include <iostream>
 #include "PointCloud.hpp"
+#include "util.h"
 
 
-namespace fast_icp {
+namespace fast_icp
+{
     PointCloud::PointCloud()
     = default;
 
-    void PointCloud::add(const Point &point) {
+    void PointCloud::add(const Point &point)
+    {
         points_.conservativeResize(Eigen::NoChange, points_.cols() + 1);
         points_.col(points_.cols() - 1) = point;
     }
 
-    PointCloud PointCloud::copy() const{
+    PointCloud PointCloud::copy() const
+    {
         PointCloud copy;
         copy.points_ = points_;
 
@@ -26,19 +30,12 @@ namespace fast_icp {
 
     void PointCloud::transform(const float &x, const float &y, const float &theta)
     {
-        Transform2D trans = Transform2D::Identity();
-
-        trans(0, 0) = std::cos(theta);
-        trans(1, 0) = std::sin(theta);
-        trans(0, 1) = -trans(1, 0);
-        trans(1, 1) = trans(0, 0);
-        trans(0, 2) = x;
-        trans(1, 2) = y;
-
+        auto trans = fast_icp::util::transformationFrom(x, y, theta);
         transform(trans);
     }
 
-    const PContainer &PointCloud::getPoints() const {
+    const PContainer &PointCloud::getPoints() const
+    {
         return points_;
     }
 
@@ -47,5 +44,11 @@ namespace fast_icp {
         points_ = transformation * points_.colwise().homogeneous();
     }
 
+    std::string PointCloud::getShape() const
+    {
+        std::ostringstream stream;
+        stream  << "(" << points_.rows() << ", " << points_.cols() << ")";
+        return stream.str();
+    }
 }
 

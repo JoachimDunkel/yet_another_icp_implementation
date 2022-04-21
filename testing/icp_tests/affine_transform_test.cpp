@@ -5,7 +5,7 @@
 #include <vector>
 
 
-#include "point_cloud_util.hpp"
+#include "../../point_cloud_util.hpp"
 
 class AffineTransformTests : public ::testing::Test {
 protected:

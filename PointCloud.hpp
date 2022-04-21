@@ -17,6 +17,8 @@ namespace fast_icp
         void transform(const Transform2D & transformation);
 
         const PContainer & getPoints() const;
+
+        std::string getShape() const;
     private:
         PContainer points_;
 
