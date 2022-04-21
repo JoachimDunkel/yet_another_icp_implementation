@@ -77,8 +77,8 @@ namespace fast_icp
 
     Transform2D ICP::ComputeTransformationSVD(const PointCloud &source_cloud, const PointCloud &target_cloud)
     {
-        Point source_centroid = source_cloud.getPoints().colwise().mean();
-        Point target_centroid = target_cloud.getPoints().colwise().mean();
+        Point source_centroid = source_cloud.getPoints().rowwise().mean();
+        Point target_centroid = target_cloud.getPoints().rowwise().mean();
 
         //compute transformation with svd
         PContainer centered_source_coordinates = source_cloud.getPoints().colwise() - source_centroid;

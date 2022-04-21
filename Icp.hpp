@@ -21,7 +21,7 @@ public:
 private:
 
     void DetermineCorrespondences();
-    Transform2D ComputeTransformationSVD(const PointCloud & source_cloud, const PointCloud & target_cloud);
+    static Transform2D ComputeTransformationSVD(const PointCloud & source_cloud, const PointCloud & target_cloud);
     double ComputeError(const PointCloud &transformed_cloud);
     PointCloud GetTargetCloudCorrespondences();
 
