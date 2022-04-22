@@ -81,7 +81,7 @@ TEST_F(ICPIntegrationTests, RectangleWorksWithRandomSubSampling)
     target_cloud_.transform(expected_transform_);
 
     ICP icp(source_cloud_, target_cloud_);
-    icp.corr_rejection_ = CORR_REJECTION::RANDOM_SUB_SAMPLE;
+    icp.sampling_strategy_ = SAMPLING_STRATEGY::RANDOM_SUB_SAMPLE;
 
     PointCloud transformed_cloud;
     auto found_transformation = icp.Align(transformed_cloud);
@@ -101,11 +101,9 @@ TEST_F(ICPIntegrationTests, EdgeConvergesWithRandomSampling)
     target_cloud_.transform(expected_transform_);
 
     ICP icp(source_cloud_, target_cloud_);
-    icp.corr_rejection_ = CORR_REJECTION::RANDOM_SUB_SAMPLE;
+    icp.sampling_strategy_ = SAMPLING_STRATEGY::RANDOM_SUB_SAMPLE;
     PointCloud transformed_cloud;
     icp.Align(transformed_cloud);
-
-    point_cloud_util::viewSourceAndTargetCloud(transformed_cloud, target_cloud_);
 
     EXPECT_TRUE(source_cloud_ != target_cloud_);
     EXPECT_TRUE(icp.isConverged());

@@ -2,7 +2,7 @@
 
 #include "resources.h"
 #include "PointCloud.hpp"
-#include "CorrespondenceMetrics.h"
+#include "CorrespondencePicker.h"
 
 namespace fast_icp
 {
@@ -16,8 +16,8 @@ public:
 
     double converged_threshold_;
     size_t max_iterations_;
-    CORR_REJECTION corr_rejection_;
-    CORR_METRIC corr_metric_;
+    SAMPLING_STRATEGY sampling_strategy_;
+    CORRESPONDENCE_STRATEGY correspondence_strategy_;
 
     bool isConverged() const;
     size_t neededIterations() const;

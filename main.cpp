@@ -28,8 +28,8 @@ int main()
 
     fast_icp::ICP icp(source_cloud, target_cloud);
     icp.max_iterations_ = 50;
-    icp.corr_rejection_ = CORR_REJECTION::RANDOM_SUB_SAMPLE;
-    icp.corr_metric_ = CORR_METRIC::CLOSEST_IN_TARGET;
+    icp.sampling_strategy_ = SAMPLING_STRATEGY::RANDOM_SUB_SAMPLE;
+    icp.correspondence_strategy_ = CORRESPONDENCE_STRATEGY::PICK_CLOSEST_TARGET_POINT;
 
     PointCloud transformed_cloud;
     auto found_transformation = icp.Align(transformed_cloud);

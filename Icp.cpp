@@ -7,8 +7,8 @@ namespace fast_icp
     ICP::ICP(const PointCloud &source_cloud, const PointCloud &target_cloud)
             : converged_threshold_(2e-2),
               max_iterations_(50),
-              corr_rejection_(CORR_REJECTION::ALL_SOURCE_POINTS),
-              corr_metric_(CORR_METRIC::CLOSEST_IN_TARGET),
+              sampling_strategy_(SAMPLING_STRATEGY::ALL_SOURCE_POINTS),
+              correspondence_strategy_(CORRESPONDENCE_STRATEGY::PICK_CLOSEST_TARGET_POINT),
               needed_iterations_(max_iterations_),
               source_cloud_(source_cloud),
               target_cloud_(target_cloud),
@@ -25,9 +25,9 @@ namespace fast_icp
 
         needed_iterations_ = 0;
 
-        CorrespondenceMetrics corr_metrics_(transformed_cloud, target_cloud_);
-        corr_metrics_.corr_rejection_ = corr_rejection_;
-        corr_metrics_.corr_metric_ = corr_metric_;
+        CorrespondencePicker corr_metrics_(transformed_cloud, target_cloud_);
+        corr_metrics_.sampling_strategy_ = sampling_strategy_;
+        corr_metrics_.correspondence_strategy_ = correspondence_strategy_;
 
         for (size_t i = 0; i < max_iterations_; ++i)
         {

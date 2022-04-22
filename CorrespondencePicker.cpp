@@ -1,18 +1,18 @@
-#include "CorrespondenceMetrics.h"
+#include "CorrespondencePicker.h"
 #include "util.h"
 #include <random>
 
 namespace fast_icp
 {
 
-    CorrespondenceMetrics::CorrespondenceMetrics(const PointCloud &source_cloud, const PointCloud &target_cloud)
+    CorrespondencePicker::CorrespondencePicker(const PointCloud &source_cloud, const PointCloud &target_cloud)
     : source_cloud_(source_cloud),
       target_cloud_(target_cloud),
       sample_ration_(0.2),
-      corr_rejection_(CORR_REJECTION::ALL_SOURCE_POINTS),
-      corr_metric_(CORR_METRIC::CLOSEST_IN_TARGET) {}
+      sampling_strategy_(SAMPLING_STRATEGY::ALL_SOURCE_POINTS),
+      correspondence_strategy_(CORRESPONDENCE_STRATEGY::PICK_CLOSEST_TARGET_POINT) {}
 
-    std::vector<size_t> CorrespondenceMetrics::drawSample()
+    std::vector<size_t> CorrespondencePicker::drawSample()
     {
         std::random_device random_device;
         std::mt19937 random_generator = std::mt19937(random_device());
@@ -27,7 +27,7 @@ namespace fast_icp
         return source_ids;
     }
 
-    std::vector<size_t> CorrespondenceMetrics::getSourceIds()
+    std::vector<size_t> CorrespondencePicker::getSourceIds()
     {
         std::vector<size_t> source_ids(source_cloud_.size());
         std::iota(source_ids.begin(), source_ids.end(), 0);
@@ -35,20 +35,20 @@ namespace fast_icp
     }
 
 
-    void CorrespondenceMetrics::GetAlignment(PointCloud & sampled_source, PointCloud & sampled_target)
+    void CorrespondencePicker::GetAlignment(PointCloud & sampled_source, PointCloud & sampled_target)
     {
         std::vector<size_t> source_ids, target_ids;
-        if(corr_rejection_ == ALL_SOURCE_POINTS)
+        if(sampling_strategy_ == ALL_SOURCE_POINTS)
         {
             source_ids = getSourceIds();
         }
-        else if(corr_rejection_ == RANDOM_SUB_SAMPLE)
+        else if(sampling_strategy_ == RANDOM_SUB_SAMPLE)
         {
             source_ids = drawSample();
         }
         sampled_source = source_cloud_.getSample(source_ids);
 
-        if(corr_metric_ == CLOSEST_IN_TARGET)
+        if(correspondence_strategy_ == PICK_CLOSEST_TARGET_POINT)
         {
             //Todo replace with kd-tree implementation
             for (int i = 0; i < sampled_source.getPoints().cols(); ++i) {
