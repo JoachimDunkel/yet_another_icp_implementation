@@ -1,6 +1,7 @@
 #include "CorrespondencePicker.h"
 #include "util.h"
 #include <random>
+#include "nanoflann.hpp"
 
 namespace fast_icp
 {
@@ -50,25 +51,45 @@ namespace fast_icp
 
         if(correspondence_strategy_ == PICK_CLOSEST_TARGET_POINT)
         {
-            //Todo replace with kd-tree implementation
-            for (int i = 0; i < sampled_source.getPoints().cols(); ++i) {
+            using KDTree = nanoflann::KDTreeEigenMatrixAdaptor<PContainer, 2, nanoflann::metric_L2, true>;
+            KDTree kd_tree((int32_t)target_cloud_.size(), std::cref(target_cloud_.getPoints()), 10);
+            kd_tree.index->buildIndex();
+
+            // do a knn search
+            const size_t K = 1;
+            for (size_t i = 0; i < sampled_source.size(); ++i) {
                 Point source_point = sampled_source.getPoints().col(i);
-                int closest_target_index = -1;
-                auto closest_distance = std::numeric_limits<float>::max();
+                float query_pt[2] = {source_point.x(),source_point.y()};
+                size_t ret_index;
+                float  out_dists_sqr;
 
-                for (int j = 0; j < target_cloud_.getPoints().cols(); ++j) {
-                    Point target_point = target_cloud_.getPoints().col(j);
-                    auto distance = util::euclidDistance(source_point, target_point);
-                    if(distance < closest_distance)
-                    {
-                        closest_distance = distance;
-                        closest_target_index = j;
-                    }
-                }
+                nanoflann::KNNResultSet<float> resultSet(K);
+                resultSet.init(&ret_index, &out_dists_sqr);
 
-                assert(closest_target_index != -1);
-                target_ids.push_back(closest_target_index);
+                kd_tree.index->findNeighbors(resultSet, &query_pt[0], nanoflann::SearchParams());
+
             }
+
+//            //Todo replace with kd-tree implementation
+//            for (int i = 0; i < sampled_source.getPoints().cols(); ++i) {
+//                Point source_point = sampled_source.getPoints().col(i);
+//                int closest_target_index = -1;
+//                auto closest_distance = std::numeric_limits<float>::max();
+//
+//                for (int j = 0; j < target_cloud_.getPoints().cols(); ++j) {
+//                    Point target_point = target_cloud_.getPoints().col(j);
+//                    auto distance = util::euclidDistance(source_point, target_point);
+//                    if(distance < closest_distance)
+//                    {
+//                        closest_distance = distance;
+//                        closest_target_index = j;
+//                    }
+//                }
+//
+//                assert(closest_target_index != -1);
+//                target_ids.push_back(closest_target_index);
+//            }
+
         }
         assert(source_ids.size() == target_ids.size());
         sampled_target = target_cloud_.getSample(target_ids);

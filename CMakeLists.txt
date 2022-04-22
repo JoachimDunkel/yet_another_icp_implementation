@@ -20,7 +20,9 @@ add_library(${PROJECT_NAME}_core
         PointCloud.hpp
         point_cloud_util.cpp
         point_cloud_util.hpp
-        CorrespondencePicker.cpp CorrespondencePicker.h)
+        CorrespondencePicker.cpp
+        CorrespondencePicker.h
+        nanoflann.hpp)
 
 #link_directories(${PCL_LIBRARY_DIRS})
 #add_definitions(${PCL_DEFINITIONS})
