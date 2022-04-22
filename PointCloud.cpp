@@ -19,12 +19,6 @@ namespace fast_icp
     {
         PointCloud copy;
         copy.points_ = points_;
-
-        float o_value = points_(0, 0);
-
-        copy.points_(0, 0) = -1;
-
-        assert(points_(0, 0) == o_value);
         return copy;
     }
 
@@ -59,6 +53,23 @@ namespace fast_icp
     bool PointCloud::operator!=(const PointCloud &rhs) const
     {
         return !(*this == rhs);
+    }
+
+    size_t PointCloud::size() const
+    {
+        return getPoints().cols();
+    }
+
+    PointCloud PointCloud::getSample(const std::vector<size_t> & samples) const
+    {
+        PointCloud sampled_cloud;
+
+        for (const size_t & sample_id : samples) {
+            assert(sample_id < (size_t)points_.cols());
+            Point source_point = points_.col((long)sample_id);
+            sampled_cloud.add(source_point);
+        }
+        return sampled_cloud;
     }
 
 

@@ -70,3 +70,16 @@ TEST(util_tests, minus_operator_does_row_wise_substraction_as_expected)
     }
 
 }
+
+TEST(util_tests, PointCloudAddWorksAsExpected){
+    fast_icp::PointCloud cloud;
+
+    fast_icp::Point a;
+    a.x() = (float)1;
+    a.y() = (float)1;
+
+    EXPECT_EQ(0, cloud.size());
+
+    cloud.add(a);
+    EXPECT_EQ(1, cloud.size());
+}

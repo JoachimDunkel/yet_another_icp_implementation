@@ -14,7 +14,7 @@ int main()
 {
 //    "/home/jd/git/fast_icp/data/edge.pcd"
 
-    std::string file_path = "/home/jd/git/fast_icp/data/rectangle.pcd";
+    std::string file_path = "/home/jd/git/fast_icp/data/edge.pcd";
     PCLCloud cloud_pcl;
     if(!point_cloud_util::readCloudFromFile(file_path, cloud_pcl)) return -1;
 
@@ -22,12 +22,14 @@ int main()
     point_cloud_util::fromPCL(cloud_pcl, source_cloud);
 
     PointCloud target_cloud = source_cloud.copy();
-    auto trans = fast_icp::util::transformationFrom(0.2, 0.2, DEG2RAD(5));
+    auto trans = fast_icp::util::transformationFrom(0, 0, DEG2RAD(15));
 
     target_cloud.transform(trans);
 
     fast_icp::ICP icp(source_cloud, target_cloud);
     icp.max_iterations_ = 50;
+    icp.corr_rejection_ = CORR_REJECTION::RANDOM_SUB_SAMPLE;
+    icp.corr_metric_ = CORR_METRIC::CLOSEST_IN_TARGET;
 
     PointCloud transformed_cloud;
     auto found_transformation = icp.Align(transformed_cloud);

@@ -34,6 +34,11 @@ public:
     static bool readCloudFromFile(const std::string& file_path, PCLCloud& cloud);
     static void storeCloudToFile(const std::string& file_path, const PCLCloud& cloud);
 
+    static void printPCLTransformation(const Eigen::Matrix4f &matrix);
+
+    static void viewSourceAndTargetCloudPCL(const PCLCloud::Ptr &source, const PCLCloud::Ptr &target);
+
+    static void viewSourceAndTargetCloud(const PointCloud & source, const PointCloud & target);
 };
 
 }

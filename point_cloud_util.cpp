@@ -1,5 +1,5 @@
 #include "point_cloud_util.hpp"
-
+#include <pcl/visualization/cloud_viewer.h>
 
 namespace fast_icp {
 
@@ -127,6 +127,37 @@ namespace fast_icp {
     void point_cloud_util::storeCloudToFile(const std::string& file_path, const PCLCloud& cloud)
     {
         pcl::io::savePCDFileASCII (file_path, cloud);
+    }
+
+    void point_cloud_util::printPCLTransformation(const Eigen::Matrix4f & matrix)
+    {
+        printf ("Rotation matrix :\n");
+        printf ("    | %6.3f %6.3f %6.3f | \n", matrix (0, 0), matrix (0, 1), matrix (0, 2));
+        printf ("R = | %6.3f %6.3f %6.3f | \n", matrix (1, 0), matrix (1, 1), matrix (1, 2));
+        printf ("    | %6.3f %6.3f %6.3f | \n", matrix (2, 0), matrix (2, 1), matrix (2, 2));
+        printf ("Translation vector :\n");
+        printf ("t = < %6.3f, %6.3f, %6.3f >\n\n", matrix (0, 3), matrix (1, 3), matrix (2, 3));
+    }
+
+    void point_cloud_util::viewSourceAndTargetCloudPCL(const PCLCloud::Ptr &source, const PCLCloud::Ptr &target)
+    {
+        pcl::visualization::CloudViewer viewer ("Simple Cloud Viewer");
+        viewer.showCloud (source, "source");
+        viewer.showCloud (target, "target");
+        while (!viewer.wasStopped ())
+        {
+        }
+
+    }
+
+    void point_cloud_util::viewSourceAndTargetCloud(const PointCloud &source, const PointCloud &target)
+    {
+        PCLCloud::Ptr source_cloud_pcl(new PCLCloud);
+        PCLCloud::Ptr target_cloud_pcl(new PCLCloud);
+
+        toPCL(source.getPoints(), *source_cloud_pcl);
+        toPCL(target.getPoints(), *target_cloud_pcl);
+        viewSourceAndTargetCloudPCL(source_cloud_pcl, target_cloud_pcl);
     }
 
 }

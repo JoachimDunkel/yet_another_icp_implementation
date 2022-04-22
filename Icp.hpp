@@ -2,6 +2,7 @@
 
 #include "resources.h"
 #include "PointCloud.hpp"
+#include "CorrespondenceMetrics.h"
 
 namespace fast_icp
 {
@@ -15,24 +16,24 @@ public:
 
     double converged_threshold_;
     size_t max_iterations_;
+    CORR_REJECTION corr_rejection_;
+    CORR_METRIC corr_metric_;
 
     bool isConverged() const;
-
     size_t neededIterations() const;
+    float getAlignmentError() const;
 
 private:
 
-    void DetermineCorrespondences();
     static Transform2D ComputeTransformationSVD(const PointCloud & source_cloud, const PointCloud & target_cloud);
-    double ComputeError(const PointCloud &transformed_cloud);
-    PointCloud GetTargetCloudCorrespondences();
+    void ComputeError(const PointCloud &transformed_cloud);
 
     size_t needed_iterations_;
     const fast_icp::PointCloud & source_cloud_;
     const fast_icp::PointCloud & target_cloud_;
 
-    std::vector<int> target_correspondences_;
     bool converged_;
+    float error_;
 };
 
 }

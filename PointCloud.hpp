@@ -17,11 +17,13 @@ namespace fast_icp
         void transform(const Transform2D & transformation);
 
         const PContainer & getPoints() const;
-
+        size_t size() const;
         std::string getShape() const;
 
         bool operator == (const PointCloud &rhs) const;
         bool operator != (const PointCloud &rhs) const;
+
+        PointCloud getSample(const std::vector<size_t> & samples) const;
 
     private:
         PContainer points_;
