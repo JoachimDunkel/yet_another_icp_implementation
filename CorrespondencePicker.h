@@ -1,7 +1,9 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 #include "PointCloud.hpp"
+#include "nanoflann.hpp"
 
 namespace fast_icp
 {
@@ -17,6 +19,9 @@ enum CORRESPONDENCE_STRATEGY{
 
 class CorrespondencePicker
 {
+    typedef nanoflann::KDTreeEigenMatrixAdaptor<Eigen::Matrix<float, Eigen::Dynamic, 2>> KDTree;
+
+
 public:
     explicit CorrespondencePicker(const PointCloud &source_cloud, const PointCloud &target_cloud);
 
@@ -33,16 +38,10 @@ private:
     std::vector<size_t> drawSample();
     std::vector<size_t> getSourceIds();
 
-
-
-
+    const Eigen::Matrix<float, Eigen::Dynamic, 2> kd_tree_points_;
+    std::shared_ptr<KDTree> kd_tree_;
 
 };
-
-
-
-
-
 
 
 }

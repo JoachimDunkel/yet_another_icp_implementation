@@ -107,8 +107,8 @@ TEST_F(ICPIntegrationTests, EdgeConvergesWithRandomSampling)
 
     EXPECT_TRUE(source_cloud_ != target_cloud_);
     EXPECT_TRUE(icp.isConverged());
-    std::cout << icp.getAlignmentError() << std::endl;
-    std::cout<< icp.neededIterations() << std::endl;
+//    std::cout << icp.getAlignmentError() << std::endl;
+//    std::cout<< icp.neededIterations() << std::endl;
 }
 
 TEST_F(ICPIntegrationTests, EdgeConvergesWithPCL)
